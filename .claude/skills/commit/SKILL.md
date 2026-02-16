@@ -20,11 +20,10 @@ disable-model-invocation: true
    - Do not commit files that may contain secrets (.env, credentials, etc.)
 
 3. Stage relevant files by name (avoid `git add -A` or `git add .`), then commit:
+
    ```
    git commit -m "$(cat <<'EOF'
    type: message
-
-   Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
    EOF
    )"
    ```
