@@ -6,7 +6,7 @@ import { useLang } from "@/hooks/use-lang";
 import { dict } from "@/lib/dictionary";
 import { levelColors, type TechMap } from "@/lib/tech-utils";
 import { cn } from "@/lib/utils";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, ExternalLink } from "lucide-react";
 import type { ReactNode } from "react";
 
 interface TimelineItemProps {
@@ -14,6 +14,7 @@ interface TimelineItemProps {
   endDate?: string;
   title: string;
   titleHref?: string;
+  website?: string;
   subtitle?: string;
   location?: string;
   techUsed?: string[];
@@ -34,6 +35,7 @@ export function TimelineItem({
   endDate,
   title,
   titleHref,
+  website,
   subtitle,
   location,
   techUsed,
@@ -72,17 +74,30 @@ export function TimelineItem({
         <CardContent className="pt-4 pb-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-2">
             <div>
-              {titleHref ? (
-                <a
-                  href={titleHref}
-                  className="font-semibold text-base hover:text-primary transition-colors inline-flex items-center gap-1 group"
-                >
-                  {title}
-                  <ChevronRight className="h-4 w-4 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                </a>
-              ) : (
-                <h3 className="font-semibold text-base">{title}</h3>
-              )}
+              <div className="flex items-center gap-1.5">
+                {titleHref ? (
+                  <a
+                    href={titleHref}
+                    className="font-semibold text-base hover:text-primary transition-colors inline-flex items-center gap-1 group"
+                  >
+                    {title}
+                    <ChevronRight className="h-4 w-4 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                  </a>
+                ) : (
+                  <h3 className="font-semibold text-base">{title}</h3>
+                )}
+                {website && (
+                  <a
+                    href={website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                )}
+              </div>
               {subtitle && (
                 <p className="text-sm text-muted-foreground">{subtitle}</p>
               )}

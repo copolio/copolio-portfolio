@@ -53,7 +53,19 @@ export function ExperienceDetailClient({
         <div className="max-w-4xl mx-auto">
           {/* Company header */}
           <div className="mb-10">
-            <h1 className="text-3xl font-bold mb-3">{exp.company}</h1>
+            <h1 className="text-3xl font-bold mb-3 flex items-center gap-2">
+              {exp.company}
+              {exp.website && (
+                <a
+                  href={exp.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <ExternalLink className="h-5 w-5" />
+                </a>
+              )}
+            </h1>
             <div className="flex flex-wrap items-center gap-3 text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <Briefcase className="h-4 w-4" />

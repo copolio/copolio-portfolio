@@ -29,6 +29,7 @@ export interface Experience {
   startDate: string;
   endDate?: string;
   location?: string;
+  website?: string;
   highlights: string[];
   techUsed: string[];
 }

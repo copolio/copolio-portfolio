@@ -49,6 +49,7 @@ export function ExperienceSection({
               endDate={exp.endDate}
               title={exp.company}
               titleHref={`/experience/${exp.slug}`}
+              website={exp.website}
               subtitle={exp.role}
               location={exp.location}
               techUsed={exp.techUsed}
