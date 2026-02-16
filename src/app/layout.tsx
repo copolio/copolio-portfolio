@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "김기정 | 서버 백엔드 개발자",
+  title: "김기정 | 백엔드 개발자",
   description: "Kotlin, Spring 기반 백엔드 개발자 김기정의 포트폴리오입니다.",
   icons: {
     icon: "/favicon.ico",
