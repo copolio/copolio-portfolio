@@ -1,8 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Menu } from "lucide-react";
+import { Menu, Download, FileText, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Sheet,
   SheetContent,
@@ -56,6 +62,30 @@ export function Header({ activeSection }: HeaderProps) {
         </nav>
 
         <div className="flex items-center gap-1">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-9 w-9">
+                <Download className="h-4 w-4" />
+                <span className="sr-only">
+                  {t(dict.downloadPdf.ko, dict.downloadPdf.en)}
+                </span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={() => window.open("/resume/print", "_blank")}
+              >
+                <FileText className="h-4 w-4 mr-2" />
+                {t(dict.resume.ko, dict.resume.en)}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => window.open("/career/print", "_blank")}
+              >
+                <Briefcase className="h-4 w-4 mr-2" />
+                {t(dict.careerDescription.ko, dict.careerDescription.en)}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <LangToggle />
           <ThemeToggle />
 

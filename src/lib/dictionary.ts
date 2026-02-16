@@ -15,6 +15,10 @@ export const dict = {
   teamSize: { ko: "팀 규모", en: "Team Size" },
   period: { ko: "기간", en: "Period" },
   viewDetail: { ko: "상세 보기", en: "View Detail" },
+  downloadPdf: { ko: "PDF 다운로드", en: "Download PDF" },
+  resume: { ko: "이력서", en: "Resume" },
+  careerDescription: { ko: "경력기술서", en: "Career Description" },
+  contact: { ko: "연락처", en: "Contact" },
 } as const;
 
 export type DictEntry = { ko: string; en: string };
