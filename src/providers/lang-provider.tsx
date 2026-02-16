@@ -17,9 +17,21 @@ export const LangContext = createContext<LangContextType>({
 });
 
 export function LangProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocale] = useState<Locale>("ko");
+  const [locale, setLocaleState] = useState<Locale>("ko");
+
+  const setLocale = (l: Locale) => {
+    setLocaleState(l);
+    localStorage.setItem("locale", l);
+  };
 
   const t = <T,>(ko: T, en: T): T => (locale === "ko" ? ko : en);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("locale") as Locale | null;
+    if (saved && (saved === "ko" || saved === "en")) {
+      setLocaleState(saved);
+    }
+  }, []);
 
   useEffect(() => {
     document.title = dict.siteTitle[locale];
