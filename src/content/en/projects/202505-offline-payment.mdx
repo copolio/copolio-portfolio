@@ -4,14 +4,37 @@ teamSize: 7
 ---
 
 ## Overview
-Developing and operating the backend system for Karrot Pay's offline payment service. Supporting payments via Karrot Pay at offline stores, building prepaid settlement and various promotion systems.
+
+Designed, developed, and operated the backend system for Karrot Pay's offline payment service. Supporting QR/barcode-based Karrot Pay payments at offline stores, covering prepaid settlement, brand promotions, and coupon-based combined payments.
 
 ## Key Responsibilities
-- Designed and developed prepaid settlement for offline payments
-- Implemented brand discount schemes and enhanced merchant management
-- Built nearby store search functionality
-- Developed various growth features including brand promotions
+
+### Core Payment System Design & Development
+- Designed and implemented QR/barcode payment (card company integration), approval/refund APIs
+- Built end-to-end payment flows including acquisition/settlement processing and point-based combined payments
+- Developed nearby merchant infrastructure with coordinate-based clustering and performance optimization
+- Designed settlement correction, differential settlement, and business-day-based payout systems
+
+### Brand Promotion System & Growth
+- Built scalable promotion schemes supporting 10+ concurrent brand partnership promotions
+- Implemented time-deal, budget management, and benefit exposure features within service architecture
+- Expanded entry points and exposure surfaces (home top bar, bottom sheet banners, nearby stores, merchant details)
+- Resolved budget concurrency issues, added burn-rate alerts, and handled payment failure/cancellation edge cases
+
+### Merchant Management & Operations
+- Enhanced brand-level merchant promotion operations and brand management
+- Organized brand-specific QR/barcode availability policies at brand and merchant levels
+- Expanded admin features (banner/policy/merchant management, transaction history/CSV export, copy management)
+- Built foundation for offline card payment support
+
+### Coupon-based Combined Payment & Additional Features
+- Designed and implemented coupon-based combined payment (coupon application on approval, failure/cancellation handling)
+- Developed year-end tax summary preview reflecting offline payment usage
+- Built card company income deduction data pipeline and file generation batch
 
 ## Results
+
 - Successfully launched and stably operated the offline payment service
-- Drove user acquisition and merchant activation through brand promotion system <!-- TODO: specific metrics (e.g., N merchants, N MAU) -->
+- Increased daily Karrot Pay signups by 1.5x through brand promotion campaign
+- Acquired +104% new offline payment user acquisition (vs. prior period)
+- Expanded repeat usage base: non-promotion users with 2+ payments grew +114%

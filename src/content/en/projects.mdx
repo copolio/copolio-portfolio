@@ -7,10 +7,10 @@ items:
     endDate: ""
     techUsed: ["Kotlin", "Spring Framework", "JPA", "MySQL", "Redis", "Kafka"]
     highlights:
-      - "Developed prepaid settlement for offline payments"
-      - "Implemented brand discount schemes and merchant management"
-      - "Built nearby store search functionality"
-      - "Developed growth actions including brand promotions"
+      - "Designed and built QR/barcode payment (card company integration) and prepaid settlement system"
+      - "Built scalable promotion schemes for 10+ concurrent brand promotions with merchant management"
+      - "Developed nearby store infrastructure (coordinates/clustering/performance) and coupon-based combined payment"
+      - "Drove new user acquisition (+104%) and 1.5x daily Karrot Pay signups"
   - slug: "gift-shop"
     title: "Gift Shop Service"
     company: "Karrot Pay"
@@ -18,31 +18,33 @@ items:
     endDate: "2025-05"
     techUsed: ["Kotlin", "Spring Framework", "JPA", "MySQL", "Redis"]
     highlights:
-      - "Built B2B promotional gift card issuance platform"
-      - "Handled settlement policy changes for card payments"
-      - "Enhanced gift voucher usage data pipeline"
+      - "Built B2B/B2C gift card platform (policy/data structure, lifecycle management, internal API/ops expansion)"
+      - "Added card payment method and handled settlement policy changes for improved accessibility"
+      - "Integrated Karrot Alba chatroom for seamless gift shop entry (entry/event/message flow)"
+      - "Established B2B gift card foundation enabling 1%+ larger discounts vs. retail prices"
   - slug: "escrow-service"
     title: "Escrow Service"
     company: "Karrot Pay"
     startDate: "2024-08"
-    endDate: "2024-11"
+    endDate: "2025-06"
     techUsed: ["Kotlin", "Spring Framework", "JPA", "MySQL", "Vue.js"]
     highlights:
-      - "Developed refundability verification and card payment features"
-      - "Built shipment registration and package tracking"
-      - "Added courier support and manual tracking number registration with admin"
+      - "Improved conversion via CS/funnel analysis (chat messages, acceptance flow, policy verification, admin)"
+      - "Developed card payment and refundability verification for expanded payment experience and transaction safety"
+      - "Built SweetTracker-based shipment tracking and courier management admin"
+      - "Active buyers +122% , transaction volume +271% , count +161%"
   - slug: "payment-settlement"
     title: "Payment / Settlement System"
     company: "Karrot Pay"
     startDate: "2024-05"
-    endDate: "2024-11"
+    endDate: "2025-03"
     techUsed: ["Kotlin", "Spring Framework", "JPA", "MySQL", "Redis", "Kafka", "Vue.js"]
     highlights:
-      - "Implemented PG redundancy and traffic distribution for payment stability"
-      - "Built real-time settlement system, reducing partner settlement cycles"
-      - "Improved payment success rate through failure analysis and retry logic optimization"
-      - "Developed Hana Card and KB Card easy registration"
-      - "Built partner admin and improved payment history admin"
+      - "Implemented PG redundancy and KCP integration for stability and fee reduction "
+      - "Refactored entire cash receipt lifecycle, automated ~4,600 reissuance cases"
+      - "Unified payment method concepts and restructured 40+ modules into hierarchical layers"
+      - "Developed Hana Card and KB Card easy registration and built partner admin"
+      - "Supported payment/settlement integration for other teams (used car auctions, delivery reservations, etc.)"
   - slug: "karrot-pay-devexp"
     title: "Developer Experience & Tech Debt"
     company: "Karrot Pay"
@@ -54,12 +56,13 @@ items:
       - "Upgraded admin from Vue.js 2 to 3"
       - "Set up test coverage visualization with Jacoco Badge Generator"
       - "Built API documentation site with Scalar and integration guide"
+      - "Maintained and enhanced runbooks for payment/settlement/escrow/offline payment"
   - slug: "domain-services"
     title: "Domain Services Development"
     company: "Gabia"
     startDate: "2021-05"
     endDate: "2024-05"
-    techUsed: ["Java", "Spring Framework", "JPA", "PHP", "MySQL", "Oracle", "Nginx"]
+    techUsed: ["Java", "Spring Framework", "JPA", "PHP", "CodeIgniter", "Oracle", "MySQL", "Nginx"]
     highlights:
       - "Built new domain registry system"
       - "Resolved concurrency issues with Redis multilock-based unified order service"
@@ -70,7 +73,7 @@ items:
     company: "Gabia"
     startDate: "2021-08"
     endDate: "2024-05"
-    techUsed: ["Java", "Spring Framework", "PHP", "MySQL", "Nginx", "Docker"]
+    techUsed: ["Java", "Spring Framework", "PHP", "CodeIgniter", "Oracle", "MySQL", "Nginx", "Docker"]
     highlights:
       - "Applied hexagonal architecture, multi-module design, and monorepo"
       - "Improved registry communication daemon throughput by 1,000x (200 → 200,000 concurrent requests)"
