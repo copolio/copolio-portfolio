@@ -5,21 +5,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLang } from "@/hooks/use-lang";
 import { dict } from "@/lib/dictionary";
+import { levelColors } from "@/lib/tech-utils";
+import { cn } from "@/lib/utils";
 import type { TechCategory } from "@/lib/types";
-
-const levelColors: Record<string, string> = {
-  expert: "bg-primary text-primary-foreground",
-  advanced: "bg-primary/80 text-primary-foreground",
-  intermediate: "bg-secondary text-secondary-foreground",
-  beginner: "bg-muted text-muted-foreground",
-};
 
 interface Props {
   ko: TechCategory[];
   en: TechCategory[];
+  activeTech: string | null;
+  onTechClick: (name: string) => void;
 }
 
-export function TechStackSection({ ko, en }: Props) {
+export function TechStackSection({ ko, en, activeTech, onTechClick }: Props) {
   const { t } = useLang();
   const categories = t(ko, en);
 
@@ -37,15 +34,26 @@ export function TechStackSection({ ko, en }: Props) {
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
-                {cat.items.map((item) => (
-                  <Badge
-                    key={item.name}
-                    variant="secondary"
-                    className={item.level ? levelColors[item.level] : ""}
-                  >
-                    {item.name}
-                  </Badge>
-                ))}
+                {cat.items.map((item) => {
+                  const isActive = activeTech === item.name;
+                  const isDimmed = activeTech !== null && !isActive;
+
+                  return (
+                    <Badge
+                      key={item.name}
+                      variant="secondary"
+                      className={cn(
+                        item.level ? levelColors[item.level] : "",
+                        "cursor-pointer transition-all duration-200",
+                        isActive && "ring-2 ring-primary ring-offset-2 scale-105",
+                        isDimmed && "opacity-30"
+                      )}
+                      onClick={() => onTechClick(item.name)}
+                    >
+                      {item.name}
+                    </Badge>
+                  );
+                })}
               </div>
             </CardContent>
           </Card>

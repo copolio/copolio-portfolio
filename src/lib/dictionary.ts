@@ -6,6 +6,8 @@ export const dict = {
   education: { ko: "학력", en: "Education" },
   certifications: { ko: "자격증", en: "Certifications" },
   present: { ko: "현재", en: "Present" },
+  relatedProjects: { ko: "관련 프로젝트", en: "Related Projects" },
+  others: { ko: "기타", en: "Others" },
 } as const;
 
 export type DictEntry = { ko: string; en: string };

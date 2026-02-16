@@ -34,6 +34,7 @@ export interface Experience {
 
 export interface Project {
   title: string;
+  company?: string;
   startDate: string;
   endDate?: string;
   highlights: string[];
@@ -43,6 +44,11 @@ export interface Project {
     demo?: string;
     docs?: string;
   };
+}
+
+export interface AggregatedTechData {
+  categories: TechCategory[];
+  techMap: Record<string, TechItem>;
 }
 
 export interface Education {

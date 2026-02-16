@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useMemo, useCallback } from "react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ProfileSection } from "@/components/sections/profile-section";
@@ -12,6 +13,7 @@ import { useActiveSection } from "@/hooks/use-active-section";
 import type {
   Profile,
   TechCategory,
+  TechItem,
   Experience,
   Project,
   Education,
@@ -27,6 +29,8 @@ interface PageClientProps {
   profileEn: ProfileWithSummary;
   techKo: TechCategory[];
   techEn: TechCategory[];
+  techMapKo: Record<string, TechItem>;
+  techMapEn: Record<string, TechItem>;
   expKo: Experience[];
   expEn: Experience[];
   projKo: Project[];
@@ -51,6 +55,7 @@ export function PageClient({
   profileEn,
   techKo,
   techEn,
+  techMapKo,
   expKo,
   expEn,
   projKo,
@@ -61,15 +66,71 @@ export function PageClient({
   certEn,
 }: PageClientProps) {
   const activeSection = useActiveSection(sectionIds);
+  const [activeTech, setActiveTech] = useState<string | null>(null);
+
+  const techMap = useMemo(() => {
+    const map = new Map<string, TechItem>();
+    for (const [name, item] of Object.entries(techMapKo)) {
+      map.set(name, item);
+    }
+    return map;
+  }, [techMapKo]);
+
+  const projectsByCompanyKo = useMemo(() => {
+    const map = new Map<string, Project[]>();
+    for (const proj of projKo) {
+      if (proj.company) {
+        const existing = map.get(proj.company) || [];
+        existing.push(proj);
+        map.set(proj.company, existing);
+      }
+    }
+    return map;
+  }, [projKo]);
+
+  const projectsByCompanyEn = useMemo(() => {
+    const map = new Map<string, Project[]>();
+    for (const proj of projEn) {
+      if (proj.company) {
+        const existing = map.get(proj.company) || [];
+        existing.push(proj);
+        map.set(proj.company, existing);
+      }
+    }
+    return map;
+  }, [projEn]);
+
+  const handleTechClick = useCallback((name: string) => {
+    setActiveTech((prev) => (prev === name ? null : name));
+  }, []);
 
   return (
     <>
       <Header activeSection={activeSection} />
       <main className="min-h-screen">
         <ProfileSection ko={profileKo} en={profileEn} />
-        <TechStackSection ko={techKo} en={techEn} />
-        <ExperienceSection ko={expKo} en={expEn} />
-        <ProjectsSection ko={projKo} en={projEn} />
+        <TechStackSection
+          ko={techKo}
+          en={techEn}
+          activeTech={activeTech}
+          onTechClick={handleTechClick}
+        />
+        <ExperienceSection
+          ko={expKo}
+          en={expEn}
+          activeTech={activeTech}
+          onTechClick={handleTechClick}
+          techMap={techMap}
+          projectsByCompanyKo={projectsByCompanyKo}
+          projectsByCompanyEn={projectsByCompanyEn}
+        />
+        <ProjectsSection
+          ko={projKo}
+          en={projEn}
+          activeTech={activeTech}
+          onTechClick={handleTechClick}
+          techMap={techMap}
+        />
         <EducationSection ko={eduKo} en={eduEn} />
         <CertificationsSection ko={certKo} en={certEn} />
       </main>

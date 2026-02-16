@@ -1,7 +1,14 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import type { Locale } from "./types";
+import type {
+  Locale,
+  TechCategory,
+  TechItem,
+  Experience,
+  Project,
+  AggregatedTechData,
+} from "./types";
 
 const contentDir = path.join(process.cwd(), "src", "content");
 
@@ -18,4 +25,43 @@ export function getContent<T>(
 export function getItemsContent<T>(section: string, locale: Locale): T[] {
   const { data } = getContent<{ items: T[] }>(section, locale);
   return data.items;
+}
+
+export function aggregateTechData(
+  manualCategories: TechCategory[],
+  experiences: Experience[],
+  projects: Project[],
+  othersLabel: string
+): AggregatedTechData {
+  const techMap: Record<string, TechItem> = {};
+  for (const cat of manualCategories) {
+    for (const item of cat.items) {
+      techMap[item.name] = item;
+    }
+  }
+
+  const allTechNames = new Set<string>();
+  for (const exp of experiences) {
+    for (const tech of exp.techUsed) allTechNames.add(tech);
+  }
+  for (const proj of projects) {
+    for (const tech of proj.techUsed) allTechNames.add(tech);
+  }
+
+  const uncategorized: TechItem[] = [];
+  for (const name of allTechNames) {
+    if (!(name in techMap)) {
+      const item: TechItem = { name };
+      uncategorized.push(item);
+      techMap[name] = item;
+    }
+  }
+
+  const categories = [...manualCategories];
+  if (uncategorized.length > 0) {
+    uncategorized.sort((a, b) => a.name.localeCompare(b.name));
+    categories.push({ category: othersLabel, items: uncategorized });
+  }
+
+  return { categories, techMap };
 }

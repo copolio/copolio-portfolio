@@ -1,4 +1,4 @@
-import { getContent, getItemsContent } from "@/lib/content";
+import { getContent, getItemsContent, aggregateTechData } from "@/lib/content";
 import type {
   Profile,
   TechCategory,
@@ -13,8 +13,8 @@ export default function Home() {
   const profileKo = getContent<Profile>("profile", "ko");
   const profileEn = getContent<Profile>("profile", "en");
 
-  const techKo = getContent<{ categories: TechCategory[] }>("techstack", "ko");
-  const techEn = getContent<{ categories: TechCategory[] }>("techstack", "en");
+  const techKoRaw = getContent<{ categories: TechCategory[] }>("techstack", "ko");
+  const techEnRaw = getContent<{ categories: TechCategory[] }>("techstack", "en");
 
   const expKo = getItemsContent<Experience>("experience", "ko");
   const expEn = getItemsContent<Experience>("experience", "en");
@@ -28,12 +28,17 @@ export default function Home() {
   const certKo = getItemsContent<Certification>("certifications", "ko");
   const certEn = getItemsContent<Certification>("certifications", "en");
 
+  const techAggKo = aggregateTechData(techKoRaw.data.categories, expKo, projKo, "기타");
+  const techAggEn = aggregateTechData(techEnRaw.data.categories, expEn, projEn, "Others");
+
   return (
     <PageClient
       profileKo={{ ...profileKo.data, summary: profileKo.content.trim() }}
       profileEn={{ ...profileEn.data, summary: profileEn.content.trim() }}
-      techKo={techKo.data.categories}
-      techEn={techEn.data.categories}
+      techKo={techAggKo.categories}
+      techEn={techAggEn.categories}
+      techMapKo={techAggKo.techMap}
+      techMapEn={techAggEn.techMap}
       expKo={expKo}
       expEn={expEn}
       projKo={projKo}

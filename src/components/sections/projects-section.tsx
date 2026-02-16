@@ -3,18 +3,29 @@
 import { SectionWrapper } from "@/components/section-wrapper";
 import { Timeline } from "@/components/timeline/timeline";
 import { TimelineItem } from "@/components/timeline/timeline-item";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLang } from "@/hooks/use-lang";
 import { dict } from "@/lib/dictionary";
-import { Github, ExternalLink } from "lucide-react";
+import type { TechMap } from "@/lib/tech-utils";
+import { Github, ExternalLink, Building2 } from "lucide-react";
 import type { Project } from "@/lib/types";
 
 interface Props {
   ko: Project[];
   en: Project[];
+  activeTech: string | null;
+  onTechClick: (name: string) => void;
+  techMap: TechMap;
 }
 
-export function ProjectsSection({ ko, en }: Props) {
+export function ProjectsSection({
+  ko,
+  en,
+  activeTech,
+  onTechClick,
+  techMap,
+}: Props) {
   const { t } = useLang();
   const items = t(ko, en);
 
@@ -32,7 +43,19 @@ export function ProjectsSection({ ko, en }: Props) {
             endDate={proj.endDate}
             title={proj.title}
             techUsed={proj.techUsed}
+            activeTech={activeTech}
+            onTechClick={onTechClick}
+            techMap={techMap}
           >
+            {proj.company && (
+              <div className="mb-2">
+                <Badge variant="secondary" className="text-xs">
+                  <Building2 className="h-3 w-3 mr-1" />
+                  {proj.company}
+                </Badge>
+              </div>
+            )}
+
             {proj.highlights.length > 0 && (
               <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
                 {proj.highlights.map((h, j) => (
