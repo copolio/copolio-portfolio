@@ -41,11 +41,11 @@ export function Header({ activeSection }: HeaderProps) {
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
       <div className="max-w-4xl mx-auto flex items-center justify-between h-14 px-4 md:px-8">
         <a href="#profile" className="font-bold text-lg">
-          Portfolio
+          copolio
         </a>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1">
+        {/* Desktop nav (hidden at xl+ where TOC takes over) */}
+        <nav className="hidden md:flex xl:hidden items-center gap-1">
           {sections.map((s) => (
             <a
               key={s.id}

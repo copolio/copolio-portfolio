@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback } from "react";
 import { Header } from "@/components/layout/header";
+import { TableOfContents } from "@/components/layout/table-of-contents";
 import { Footer } from "@/components/layout/footer";
 import { ProfileSection } from "@/components/sections/profile-section";
 import { TechStackSection } from "@/components/sections/techstack-section";
@@ -107,6 +108,7 @@ export function PageClient({
   return (
     <>
       <Header activeSection={activeSection} />
+      <TableOfContents activeSection={activeSection} />
       <main className="min-h-screen">
         <ProfileSection ko={profileKo} en={profileEn} />
         <TechStackSection

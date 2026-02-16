@@ -50,12 +50,19 @@ export function TimelineItem({
     !activeTech || (techUsed?.includes(activeTech) ?? false);
 
   return (
-    <div className="relative pl-8 md:pl-10">
+    <div className="relative pl-8 md:pl-0 md:grid md:grid-cols-[8rem_1fr] md:gap-6">
       {/* Timeline line */}
-      <div className="absolute left-0 top-0 bottom-0 w-px bg-border md:left-1" />
+      <div className="absolute left-0 top-0 bottom-0 w-px bg-border md:left-35" />
       {/* Timeline dot */}
-      <div className="absolute left-[-4px] top-2 h-2.5 w-2.5 rounded-full border-2 border-primary bg-background md:left-[-3px]" />
+      <div className="absolute left-[-4px] top-2 h-2.5 w-2.5 rounded-full border-2 border-primary bg-background md:left-34 md:top-5" />
 
+      {/* Left column: date (desktop only) */}
+      <div className="hidden md:flex md:flex-col md:items-end md:pt-4 md:text-sm md:text-muted-foreground">
+        <span className="whitespace-nowrap">{dateRange}</span>
+        {location && <span className="text-xs mt-0.5">{location}</span>}
+      </div>
+
+      {/* Right column: card */}
       <Card
         className={cn(
           "transition-all duration-200",
@@ -80,7 +87,8 @@ export function TimelineItem({
                 <p className="text-sm text-muted-foreground">{subtitle}</p>
               )}
             </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            {/* Date and location: mobile only */}
+            <div className="flex items-center gap-2 text-sm text-muted-foreground md:hidden">
               <span className="whitespace-nowrap">{dateRange}</span>
               {location && (
                 <>
