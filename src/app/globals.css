@@ -133,7 +133,7 @@
 /* Print page layout — screen preview */
 .print-page {
   max-width: 210mm;
-  margin: 2rem auto;
+  margin: 0 auto;
   padding: 20mm 15mm;
   background: white;
   color: oklch(0.145 0 0);
@@ -146,22 +146,34 @@
 .print-page-bg {
   background: oklch(0.96 0 0);
   min-height: 100vh;
+  padding: 1rem 1rem 3rem;
 }
 
 :is(.dark) .print-page-bg {
   background: oklch(0.2 0 0);
 }
 
-/* Force light text colors inside print-page regardless of dark mode */
+/* Force all light-theme variables inside print-page regardless of dark mode */
 .print-page {
+  --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.45 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.85 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
   color: var(--foreground);
-}
-
-.print-page .text-muted-foreground {
-  color: var(--muted-foreground);
 }
 
 .print-prose h2 {
@@ -206,8 +218,22 @@
   .dark {
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
     --muted-foreground: oklch(0.45 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
     --border: oklch(0.85 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
   }
 
   .print-page-bg {

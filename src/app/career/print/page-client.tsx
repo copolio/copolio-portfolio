@@ -40,7 +40,7 @@ export function CareerPrintClient({
   return (
     <div className="print-page-bg">
       {/* Toolbar - hidden in print */}
-      <div className="fixed top-4 right-4 flex items-center gap-2 print:hidden z-10">
+      <div className="sticky top-0 z-10 flex items-center justify-end gap-2 px-4 py-3 print:hidden">
         <LangToggle />
         <Button
           variant="default"
@@ -138,6 +138,11 @@ export function CareerPrintClient({
             )}
           </section>
         ))}
+
+        {/* Footer */}
+        <footer className="mt-8 pt-4 border-t text-center text-xs text-muted-foreground">
+          &copy; {new Date().getFullYear()} {profile.name}
+        </footer>
       </div>
     </div>
   );
