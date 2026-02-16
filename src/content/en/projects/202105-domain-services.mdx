@@ -1,0 +1,130 @@
+---
+role: "Backend Developer"
+teamSize: 4
+---
+
+## Overview
+Developed and operated multiple domain registrar services at Gabia's Domain Business Team. Managed services across the entire domain lifecycle including registration, renewal, reservation, cancellation, and modification.
+
+---
+
+### Domain Creation Service (2023.12 ~ 2024.01)
+
+AI-powered domain recommendation service built with TypeScript, Next.js 14, Chakra UI, and ChatGPT
+
+**Key Issues**
+- Choosing between Assistants API vs Chat Completions API
+- Fixing LLM output format consistency
+- Serverless function timeout (~10s) on Vercel free tier
+
+**Approach**
+- Prompt engineering based on Chat Completions API
+- Separated loading UI using Suspense
+- Prototyped with Next.js serverless functions instead of building a separate backend
+
+**Process**
+- Adjusted temperature (1.0 → 0.9) to improve response format consistency
+- Reduced generation array size to handle Vercel free tier timeout (max 10 seconds)
+
+**Results**
+- Completed PoC for AI utilization in Gabia's domain services
+- Provided improvement direction for domain search service
+
+---
+
+### Domain Reservation Unified Search / Order Service (2023.08 ~ 2023.09)
+
+REST API built with Java Spring MVC, JPA, Oracle / Frontend with PHP CodeIgniter, JavaScript, jQuery
+
+**Key Issues**
+- Unified search across domain drop-catch/reservation products existed, but combined checkout in a single order was impossible
+- Pessimistic DB locks only on users during orders → intermittent concurrency issues
+- Codebase scattered across multiple monolithic services
+- Magic constants hardcoded in PHP/JavaScript frontend scripts without TypeScript support
+- Fragmented AJAX calls per client type (web, mobile)
+
+**Approach**
+- Built Spring MVC REST API, back-office, and frontend to enable unified ordering across different reservation products
+- Replaced DB locks with Redis multilock on customer and requested domain list to improve data consistency and prevent duplicate reservation orders
+
+**Process**
+- Added fallback to DB pessimistic locking when Redis is down
+- Unified to a single API that responds with client-type-specific messages based on server-side parameters
+- Increased user latency due to additional HTTP API communication layer compared to legacy code that directly accessed DB from frontend PHP server
+
+**Results**
+- Consolidated scattered code into a single Spring MVC microservice, clearing technical debt
+- Refactored magic constants to enums and JSDoc for improved readability and maintainability
+- Applied functional programming paradigm using Lombok's toBuilder for Copy-On-Write, Functional Interface, Lambda, and Stream API to minimize side effects and improve code readability
+
+---
+
+### Domain Registration Change / Cancellation Service (2023.04 ~ 2023.08)
+
+REST API built with Java Spring MVC, JPA, Oracle / Frontend with PHP CodeIgniter, JavaScript, jQuery, AngularJS
+
+**Key Issues**
+- Domain registration cancellations/changes were manually processed on weekdays through customer center inquiries
+- Unavoidable losses when processing was impossible due to weekend requests or registry maintenance
+  - Domains can be fully refunded if cancelled within the grace period
+
+**Approach**
+- Applied event-driven pattern using Kafka to automate domain deletion and refunds within the registration grace period
+- Applied CQRS pattern by separating change eligibility queries from domain change service
+- Added web page features based on legacy AngularJS and Fetch API using markup provided by the frontend team
+
+**Process**
+- Failed to properly understand the manual refund process used by the operations team during planning, leading to schedule delays
+- Was overly accommodating during negotiations, resulting in scope creep — ended up handling all frontend work and payment debugging despite separate responsible departments
+
+**Results**
+- Dramatically reduced operations team workload of 100+ daily manual processes
+- Applied Composer autoloading in CodeIgniter for Value Object usage and debugging improvement
+- Improved PHP debugging/profiling process through Xdebug adoption
+
+---
+
+### Expired Domain Parking Service (2022.09 ~ 2022.12)
+
+REST API built with Java Spring MVC, JPA, MySQL / Back-office with TypeScript Vue
+
+**Key Issues**
+- Domains available during recovery period even after expiration
+- Third-party parking service discontinued due to contract expiration
+- Parking skin management page with inconsistent encoding depending on access path
+- Poorly maintained REST Docs-based API documentation
+
+**Approach**
+- Parked expired domains to self-hosted nameserver landing pages to encourage renewal and reservation
+- Developed expired domain parking conversion/recovery RESTful API with Spring MVC and JPA
+- Fixed Korean character encoding issues by fixing encoding to UTF8 on new skin creation
+- Migrated documentation from Spring RestDocs to Springdoc-based OpenAPI
+
+**Process**
+- Achieved 100% API documentation for Spring-based APIs
+- Migrated legacy parking skin management system to TypeScript SPA with Vue 3 and Ant Design Vue
+- Improved development productivity through OpenAPI Generator and Vue-Query adoption
+
+**Results**
+- Increased expired domain renewal rate by 20%
+
+---
+
+### KR Domain Reservation Service (2022.09 ~ 2022.11)
+
+REST API and batch scripts built with PHP CodeIgniter and Oracle
+
+**Key Issues**
+- KR domains registered with Gabia still required competitive acquisition through registries after expiration during reservation
+- CodeIgniter framework (v3 and below) that loaded libraries at runtime via text-based resolution, defeating IDE code navigation and making debugging difficult
+
+**Approach**
+- Developed internal reservation service for KR domains
+- Encouraged renewals through email notifications to existing owners upon reservation orders
+
+**Process**
+- Introduced PHPDoc and added annotation files for CI core to improve type hinting and code readability across the legacy PHP project
+
+**Results**
+- Increased KR domain renewal rate by 10%
+- Improved KR domain reservation success rate

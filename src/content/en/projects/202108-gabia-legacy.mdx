@@ -1,0 +1,88 @@
+---
+role: "Backend Developer"
+teamSize: 4
+---
+
+## Overview
+Modernized Gabia's legacy PHP systems and improved the team's development environment and monitoring processes.
+
+---
+
+### Domain Operations System Revamp (2021.08 ~ 2022.12)
+
+Back-office development with PHP CodeIgniter, Java Spring MVC, Oracle, JavaScript, TypeScript, Vue
+
+**Key Issues**
+- Business logic tightly coupled with UI in PHP/jQuery scripts, including direct DB access from View layer (Smart UI)
+- Legacy back-office built on PHP4 violating ISMS audit requirements
+- CSS and HTML styles with unclear ownership
+
+**Approach**
+- First migration to MVC pattern based on CodeIgniter, Vue 2, Vuex, Axios
+- Separated backend API based on Spring MVC / JPA
+- Vue 2 → 3 migration and TypeScript adoption after Vue 3 official release
+  - Options API → Composition API migration
+  - State management library Vuex → Pinia migration
+
+**Process**
+- Could not separate auth API from company-wide common admin server due to lack of authority
+  - Existing admin server called new server via proxy, forwarding IP and auth information
+  - Used Spring filter to extract auth information from incoming requests into objects, injected into controllers when business logic required authentication
+- Applied Atomic Design Pattern
+- Introduced Swagger and Vue Query to minimize boilerplate code for repetitive API → axios client patterns
+
+**Results**
+- Fulfilled ISMS audit compliance requirements for personal information
+  - Implemented audit trail for changes handling personal information and products
+- Separated admin page frontend / backend
+  - Configured layout templates and components that can be easily referenced without prior Vue knowledge
+- Replaced CSS and improved markup through Quasar UI framework adoption
+
+---
+
+### Domain Registry Communication Daemon Improvement (2023.10 ~ 2024.01)
+
+RPC server development with Java 21, Spring Webflux, RSocket, Protobuf
+
+**Key Issues**
+- Legacy daemon server over 10 years old
+- Request/response interfaces and policies hardcoded as String Vectors per registry
+- EPP sessions managed with HashMap without concurrency considerations
+- OOM errors during traffic spikes due to inherently slow EPP communication
+
+**Approach**
+- Introduced Interface Definition Language (IDL)
+  - Evaluated OpenAPI Specification, Protocol Buffer, Flat Buffer
+  - Chose Protobuf for sub-1MB request sizes, broader development compatibility, and future gRPC potential
+- Selected internal bidirectional communication protocol
+  - Evaluated gRPC vs RSocket → chose RSocket for active Spring ecosystem support and direct TCP-layer connectivity beyond WebSocket
+  - Used Spring Boot's RSocket dependency since rsocket-rpc was effectively unmaintained
+- Built TCP-based socket server with Spring RSocket communicating via Protocol Buffers
+  - Reactive stack deemed more appropriate than WebMVC-based Spring Integration TCP gateway, given the focus on I/O with overseas registry servers without DB connections or business logic
+- Implemented session pool based on Apache Commons Pool
+- Leveraged Java 21 Virtual Threads for reactive programming integration with existing blocking libraries
+
+**Process**
+- Removed blocking code using Blockhound
+- Handled unavoidable blocking functions with `Mono.fromCallable(blockingFn).subscribeOn(Schedulers.boundedElastic())`
+  - Enabled JDK 21 Virtual Threads (reactor.schedulers.defaultBoundedElasticOnVirtualThreads=true)
+- Separated session acquire → use → release concern into AOP, inspired by @Transactional
+  - Storing session in singleton container would reduce usable sessions to one
+  - Considered Spring WebMVC + ThreadLocal vs Spring Webflux + Context differences
+  - Implemented custom Context-based AOP since RSocket bypasses WebFilter
+
+**Results**
+- Eliminated hardcoded request/response arrays through IDL adoption
+- Resolved OOM errors under load and dramatically increased concurrent throughput (200 → 200,000)
+- Established team load testing process through nGrinder documentation and result reporting
+
+---
+
+## Development Environment Improvements
+- Code structure improvement: hexagonal architecture, multi-module design, monorepo adoption
+- Established load testing with nGrinder
+- Introduced API documentation automation (Springdoc, OpenAPI Generator)
+- Set up PHP Composer autoload and Xdebug
+- Introduced Spring Batch
+- Improved Sentry alerting
+- Contributed MR templates and project technical documentation

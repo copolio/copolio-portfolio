@@ -19,6 +19,14 @@ export const dict = {
   resume: { ko: "이력서", en: "Resume" },
   careerDescription: { ko: "경력기술서", en: "Career Description" },
   contact: { ko: "연락처", en: "Contact" },
+  siteTitle: {
+    ko: "김기정 | 서버 백엔드 개발자",
+    en: "Kijung Kim | Server Backend Developer",
+  },
+  siteDescription: {
+    ko: "Kotlin, Spring 기반 백엔드 개발자 김기정의 포트폴리오입니다.",
+    en: "Portfolio of Kijung Kim, a backend developer specializing in Kotlin and Spring.",
+  },
 } as const;
 
 export type DictEntry = { ko: string; en: string };

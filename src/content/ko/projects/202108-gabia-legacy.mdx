@@ -1,0 +1,88 @@
+---
+role: "백엔드 개발자"
+teamSize: 4
+---
+
+## 프로젝트 개요
+가비아의 레거시 PHP 시스템을 현대화하고, 팀의 개발 환경과 관제 프로세스를 개선하는 프로젝트입니다.
+
+---
+
+### 도메인 운영 시스템 개편 (2021.08 ~ 2022.12)
+
+PHP CodeIgniter, Java Spring MVC, Oracle, JavaScript, TypeScript, Vue 기반의 백오피스 개발
+
+**주요 이슈**
+- View단의 DB 접속 등 UI와 강결합된 PHP/jQuery 스크립트 상의 비즈니스 로직 (스마트 UI)
+- PHP4 기반으로 개발되어 ISMS 심사사항에 위반되는 레거시 백오피스
+- 관리 주체가 불분명한 CSS 및 HTML 상의 스타일
+
+**접근 방법**
+- CodeIgniter, Vue 2, Vuex, Axios 기반 MVC 패턴으로 1차 마이그레이션
+- Spring MVC / JPA 기반의 백엔드 API 분리
+- Vue 3 공식 릴리즈 후 Vue 2 → 3 마이그레이션 및 TypeScript 도입
+  - Options API → Composition API 마이그레이션
+  - 상태 관리 라이브러리 Vuex → Pinia 마이그레이션
+
+**진행 과정**
+- 담당 권한 부재로 인해 사내 공통 어드민 서버에서 인증 API를 분리할 수 없었음
+  - 기존 어드민 서버에서 신규 서버를 프록시 형태로 호출하며 IP 및 인증 정보를 전달
+  - Spring filter를 활용해 들어오는 요청의 인증 관련 정보를 객체로 분리하고, 비즈니스 로직에서 인증 정보가 필요한 경우 컨트롤러에서 해당 객체 인자를 추가하여 주입받도록 구현
+- 아토믹 디자인 패턴 적용
+- 반복적으로 작성되는 API → axios 클라이언트 보일러플레이트 코드 작성시간을 최소화하기 위해 Swagger 및 Vue Query 도입
+
+**성과**
+- 개인정보 관련 ISMS 심사 보완사항 이행
+  - 개인정보 및 상품을 다루는 변경 기능에 대한 감사 추적 기능 구현
+- 어드민 페이지 프런트 / 백엔드 분리
+  - Vue에 대한 사전지식이 없더라도 기존의 코드를 참고하여 쉽게 사용할 수 있는 레이아웃 템플릿 및 컴포넌트 구성
+- Quasar UI 프레임워크 도입을 통한 CSS 대체 및 마크업 개선
+
+---
+
+### 도메인 레지스트리 통신 데몬 개선 (2023.10 ~ 2024.01)
+
+Java 21, Spring Webflux, RSocket, Protobuf 기반의 RPC 서버 개발
+
+**주요 이슈**
+- 개발된 지 10년 이상 지난 레거시 데몬 서버
+- 레지스트리 별로 문자열 Vector로 하드코딩되어있는 요청/응답 인터페이스와 정책
+- 동시성에 대한 고려없이 HashMap으로 관리되고 있는 EPP 세션
+- 매우 느린 EPP 통신의 특성상 순간적으로 요청이 몰릴 때 발생하는 OOM 오류
+
+**접근 방법**
+- 인터페이스 정의 언어(IDL) 도입
+  - OpenAPI Specification, Protocol Buffer, Flat Buffer 등을 검토
+  - 1MB 이하 요청값, 폭넓은 개발 호환성, 추후 gRPC 활용 가능성 등의 이유로 Protobuf 채택
+- 내부 양방향 통신 프로토콜 선정
+  - gRPC vs RSocket 검토 → 스프링 진영의 적극적 지원, WebSocket뿐 아니라 TCP 계층 위에서 바로 연결 가능한 RSocket 채택
+  - rsocket-rpc는 사실상 유지보수가 안 되고 있으므로 Spring Boot의 RSocket 의존성 활용
+- 최종적으로 Spring RSocket을 활용하여 TCP 기반 소켓 서버를 구축하고 Protocol Buffers 기반으로 통신하도록 구성
+  - 별도의 DB 연결이나 비즈니스 로직 없이 해외 레지스트리 서버와의 통신 I/O에 치중된 만큼 WebMVC 기반 Spring Integration TCP 게이트웨이보다 리액티브 스택이 적절하다고 판단
+- Apache Commons Pool 기반의 세션 풀 구현
+- Java 21의 Virtual Thread를 활용한 리액티브 프로그래밍과 기존 블로킹 라이브러리 연동
+
+**진행 과정**
+- Blockhound를 활용한 블로킹 코드 제거
+- 피할 수 없는 블로킹 함수에는 `Mono.fromCallable(블로킹 함수).subscribeOn(Schedulers.boundedElastic())`로 대처
+  - JDK 21의 Virtual Thread 활성화 (reactor.schedulers.defaultBoundedElasticOnVirtualThreads=true)
+- @Transactional을 모방하여 세션 획득 → 사용 → 반납이라는 공통 관점을 AOP로 분리
+  - 세션을 싱글턴 컨테이너의 상태로 보관 시 실질적으로 사용 가능한 세션이 하나로 줄어드는 문제
+  - Spring WebMVC + ThreadLocal ↔ Spring Webflux + Context 차이 고려
+  - RSocket은 WebFilter를 타지 않으므로 Context 기반의 자체 AOP로 구현
+
+**성과**
+- IDL 도입을 통한 하드코딩된 요청/응답 배열 제거
+- 과부하 상황에서의 OOM 에러 제거 및 동시 수용 가능한 처리량 대폭 증가 (200 → 200,000)
+- nGrinder 사용법 문서화 및 결과 보고를 통해 팀 내 부하 테스트 프로세스 도입
+
+---
+
+## 개발 환경 개선
+- 코드 구조 개선: 헥사고날 아키텍처, 멀티모듈 설계, 모노레포 도입
+- nGrinder를 통한 부하 테스트 체계 구축
+- API 문서 자동화 (Springdoc, OpenAPI Generator) 도입
+- PHP Composer autoload 및 Xdebug 도입
+- Spring Batch 도입
+- Sentry 관제 알림 개선
+- 팀 내 MR 템플릿 기여 및 프로젝트 기술 문서 작성

@@ -71,8 +71,13 @@ export function getProjectDetail(
   slug: string,
   locale: Locale
 ): ProjectDetail | null {
-  const filePath = path.join(contentDir, locale, "projects", `${slug}.mdx`);
-  if (!fs.existsSync(filePath)) return null;
+  const dir = path.join(contentDir, locale, "projects");
+  if (!fs.existsSync(dir)) return null;
+  const match = fs
+    .readdirSync(dir)
+    .find((f) => f === `${slug}.mdx` || f.endsWith(`-${slug}.mdx`));
+  if (!match) return null;
+  const filePath = path.join(dir, match);
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(raw);
   return {

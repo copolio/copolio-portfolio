@@ -99,7 +99,7 @@ export function ResumePrintClient({
             {profile.linkedin && (
               <span className="flex items-center gap-1">
                 <Linkedin className="h-3.5 w-3.5" />
-                {profile.linkedin.replace("https://linkedin.com/in/", "")}
+                {profile.linkedin.replace("https://www.linkedin.com/in/", "")}
               </span>
             )}
             <span className="flex items-center gap-1">
