@@ -25,18 +25,18 @@ export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const mounted = useIsMounted();
 
-  if (!mounted) {
-    return <Button variant="ghost" size="icon" className="h-9 w-9" />;
-  }
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="h-9 w-9">
-          {theme === "dark" ? (
-            <Moon className="h-4 w-4" />
-          ) : theme === "system" ? (
-            <Monitor className="h-4 w-4" />
+          {mounted ? (
+            theme === "dark" ? (
+              <Moon className="h-4 w-4" />
+            ) : theme === "system" ? (
+              <Monitor className="h-4 w-4" />
+            ) : (
+              <Sun className="h-4 w-4" />
+            )
           ) : (
             <Sun className="h-4 w-4" />
           )}
