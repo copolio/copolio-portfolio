@@ -42,6 +42,7 @@ export function ProjectsSection({
             startDate={proj.startDate}
             endDate={proj.endDate}
             title={proj.title}
+            titleHref={`/projects/${proj.slug}`}
             techUsed={proj.techUsed}
             activeTech={activeTech}
             onTechClick={onTechClick}

@@ -7,6 +7,7 @@ import type {
   TechItem,
   Experience,
   Project,
+  ProjectDetail,
   AggregatedTechData,
 } from "./types";
 
@@ -64,4 +65,19 @@ export function aggregateTechData(
   }
 
   return { categories, techMap };
+}
+
+export function getProjectDetail(
+  slug: string,
+  locale: Locale
+): ProjectDetail | null {
+  const filePath = path.join(contentDir, locale, "projects", `${slug}.mdx`);
+  if (!fs.existsSync(filePath)) return null;
+  const raw = fs.readFileSync(filePath, "utf-8");
+  const { data, content } = matter(raw);
+  return {
+    role: data.role,
+    teamSize: data.teamSize,
+    content: content.trim(),
+  };
 }

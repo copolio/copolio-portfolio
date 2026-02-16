@@ -23,6 +23,7 @@ export interface TechItem {
 }
 
 export interface Experience {
+  slug: string;
   company: string;
   role: string;
   startDate: string;
@@ -33,6 +34,7 @@ export interface Experience {
 }
 
 export interface Project {
+  slug: string;
   title: string;
   company?: string;
   startDate: string;
@@ -44,6 +46,12 @@ export interface Project {
     demo?: string;
     docs?: string;
   };
+}
+
+export interface ProjectDetail {
+  role?: string;
+  teamSize?: number;
+  content: string;
 }
 
 export interface AggregatedTechData {

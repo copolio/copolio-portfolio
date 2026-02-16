@@ -48,6 +48,7 @@ export function ExperienceSection({
               startDate={exp.startDate}
               endDate={exp.endDate}
               title={exp.company}
+              titleHref={`/experience/${exp.slug}`}
               subtitle={exp.role}
               location={exp.location}
               techUsed={exp.techUsed}
@@ -72,7 +73,12 @@ export function ExperienceSection({
                   {linkedProjects.map((proj, k) => (
                     <div key={k} className="text-sm">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium">{proj.title}</span>
+                        <a
+                          href={`/projects/${proj.slug}`}
+                          className="font-medium hover:text-primary transition-colors"
+                        >
+                          {proj.title}
+                        </a>
                         {proj.links?.github && (
                           <a
                             href={proj.links.github}
