@@ -28,7 +28,7 @@ items:
     endDate: "2024-11"
     techUsed: ["Kotlin", "Spring Framework", "JPA", "MySQL", "Vue.js"]
     highlights:
-      - "Developed fungibility check and card payment features"
+      - "Developed refundability verification and card payment features"
       - "Built shipment registration and package tracking"
       - "Added courier support and manual tracking number registration with admin"
   - slug: "payment-settlement"
@@ -38,9 +38,9 @@ items:
     endDate: "2024-11"
     techUsed: ["Kotlin", "Spring Framework", "JPA", "MySQL", "Redis", "Kafka", "Vue.js"]
     highlights:
-      - "Implemented PG redundancy and traffic distribution"
-      - "Built real-time settlement system"
-      - "Improved auto-payment failure rate"
+      - "Implemented PG redundancy and traffic distribution for payment stability"
+      - "Built real-time settlement system, reducing partner settlement cycles"
+      - "Improved payment success rate through failure analysis and retry logic optimization"
       - "Developed Hana Card and KB Card easy registration"
       - "Built partner admin and improved payment history admin"
   - slug: "karrot-pay-devexp"
@@ -62,9 +62,9 @@ items:
     techUsed: ["Java", "Spring Framework", "JPA", "PHP", "MySQL", "Oracle", "Nginx"]
     highlights:
       - "Built new domain registry system"
-      - "Developed domain reservation unified search/order service"
-      - "Developed domain registration change/cancellation service"
-      - "Built KR domain reservation and expired domain parking services"
+      - "Resolved concurrency issues with Redis multilock-based unified order service"
+      - "Automated domain cancellation/refund via Kafka event-driven pattern, eliminating 100+ daily manual operations"
+      - "Increased expired domain renewal rate by 20% and KR domain renewal rate by 10%"
   - slug: "gabia-legacy"
     title: "Legacy Modernization & DevExp"
     company: "Gabia"
@@ -73,7 +73,7 @@ items:
     techUsed: ["Java", "Spring Framework", "PHP", "MySQL", "Nginx", "Docker"]
     highlights:
       - "Applied hexagonal architecture, multi-module design, and monorepo"
-      - "Separated domain ops frontend server and improved registry communication daemon"
+      - "Improved registry communication daemon throughput by 1,000x (200 → 200,000 concurrent requests)"
       - "Introduced nGrinder load testing and API doc automation (Springdoc, OpenAPI Generator)"
       - "Set up PHP Composer autoload, Xdebug and improved Sentry alerting"
   - slug: "mattermost-sentrybot"

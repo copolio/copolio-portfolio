@@ -38,9 +38,9 @@ items:
     endDate: "2024-11"
     techUsed: ["Kotlin", "Spring Framework", "JPA", "MySQL", "Redis", "Kafka", "Vue.js"]
     highlights:
-      - "결제 PG 이중화 및 분배 기능 구현"
-      - "실시간 정산 시스템 구축"
-      - "자동결제 서비스 실패율 개선"
+      - "PG 이중화 및 트래픽 분배로 결제 안정성 확보"
+      - "실시간 정산 시스템 구축으로 파트너 정산 주기 단축"
+      - "자동결제 실패 분석 및 재시도 로직 개선으로 결제 성공률 향상"
       - "하나카드 및 국민카드 간편등록 기능 개발"
       - "파트너 어드민 구축 및 결제내역 어드민 개선"
   - slug: "karrot-pay-devexp"
@@ -62,9 +62,9 @@ items:
     techUsed: ["Java", "Spring Framework", "JPA", "PHP", "MySQL", "Oracle", "Nginx"]
     highlights:
       - "신규 도메인 레지스트리 시스템 구축"
-      - "도메인 예약 통합 검색 / 주문 서비스 개발"
-      - "도메인 등록 변경 / 취소 서비스 개발"
-      - "KR 도메인 예약 서비스 및 만료 도메인 파킹 서비스 개발"
+      - "Redis 다중 분산락 기반 통합 주문 서비스로 동시성 이슈 해결"
+      - "Kafka 이벤트 드리븐 패턴으로 도메인 취소/환불 자동화, 일일 100건+ 수동 처리 제거"
+      - "만료 도메인 파킹 서비스로 연장률 20% 증가, KR 예약 서비스로 연장률 10% 증가"
   - slug: "gabia-legacy"
     title: "레거시 시스템 개선 및 개발환경 개선"
     company: "(주) 가비아"
@@ -73,7 +73,7 @@ items:
     techUsed: ["Java", "Spring Framework", "PHP", "MySQL", "Nginx", "Docker"]
     highlights:
       - "헥사고날 아키텍처 및 멀티모듈 설계 적용, 모노레포 도입"
-      - "도메인 운영 시스템 프론트 서버 분리 및 레지스트리 통신 데몬 개선"
+      - "레지스트리 통신 데몬 개선으로 동시 처리량 1,000배 향상 (200 → 200,000)"
       - "nGrinder 부하 테스트 및 API 문서 자동화 (Springdoc, OpenAPI Generator) 도입"
       - "PHP Composer autoload, Xdebug 도입 및 Sentry 관제 알림 개선"
   - slug: "mattermost-sentrybot"
