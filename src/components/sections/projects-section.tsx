@@ -1,15 +1,19 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import { SectionWrapper } from "@/components/section-wrapper";
 import { Timeline } from "@/components/timeline/timeline";
 import { TimelineItem } from "@/components/timeline/timeline-item";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLang } from "@/hooks/use-lang";
 import { dict } from "@/lib/dictionary";
 import type { TechMap } from "@/lib/tech-utils";
 import { Github, ExternalLink, Building2 } from "lucide-react";
 import type { Project } from "@/lib/types";
+
+type ProjectTab = "all" | "work" | "personal";
 
 interface Props {
   ko: Project[];
@@ -28,6 +32,12 @@ export function ProjectsSection({
 }: Props) {
   const { t } = useLang();
   const items = t(ko, en);
+  const [activeTab, setActiveTab] = useState<ProjectTab>("all");
+
+  const filteredItems = useMemo(() => {
+    if (activeTab === "all") return items;
+    return items.filter((proj) => proj.type === activeTab);
+  }, [items, activeTab]);
 
   return (
     <SectionWrapper id="projects">
@@ -35,8 +45,26 @@ export function ProjectsSection({
         {t(dict.projects.ko, dict.projects.en)}
       </h2>
 
+      <Tabs
+        value={activeTab}
+        onValueChange={(v) => setActiveTab(v as ProjectTab)}
+        className="mb-6"
+      >
+        <TabsList>
+          <TabsTrigger value="all">
+            {t(dict.projectsAll.ko, dict.projectsAll.en)}
+          </TabsTrigger>
+          <TabsTrigger value="work">
+            {t(dict.projectsWork.ko, dict.projectsWork.en)}
+          </TabsTrigger>
+          <TabsTrigger value="personal">
+            {t(dict.projectsPersonal.ko, dict.projectsPersonal.en)}
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
+
       <Timeline>
-        {items.map((proj, i) => (
+        {filteredItems.map((proj, i) => (
           <TimelineItem
             key={i}
             startDate={proj.startDate}

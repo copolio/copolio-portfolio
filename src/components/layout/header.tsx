@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, Download, FileText, Briefcase } from "lucide-react";
+import { Menu, Download, FileText, Briefcase, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -62,6 +62,18 @@ export function Header({ activeSection }: HeaderProps) {
         </nav>
 
         <div className="flex items-center gap-1">
+          <Button variant="ghost" size="sm" className="h-9 gap-1.5" asChild>
+            <a
+              href="https://github.com/copolio/copolio-portfolio"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github className="h-4 w-4" />
+              <span className="hidden sm:inline text-sm">
+                {t(dict.source.ko, dict.source.en)}
+              </span>
+            </a>
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-9 w-9">

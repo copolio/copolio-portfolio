@@ -38,6 +38,7 @@ export interface Project {
   slug: string;
   title: string;
   company?: string;
+  type: "work" | "personal";
   startDate: string;
   endDate?: string;
   highlights: string[];

@@ -18,6 +18,10 @@ export const dict = {
   downloadPdf: { ko: "PDF 다운로드", en: "Download PDF" },
   resume: { ko: "이력서", en: "Resume" },
   careerDescription: { ko: "경력기술서", en: "Career Description" },
+  projectsAll: { ko: "전체", en: "All" },
+  projectsWork: { ko: "업무", en: "Work" },
+  projectsPersonal: { ko: "개인", en: "Personal" },
+  source: { ko: "Source", en: "Source" },
   contact: { ko: "연락처", en: "Contact" },
   siteTitle: {
     ko: "김기정 | 백엔드 엔지니어",
