@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getItemsContent, getProjectDetail } from "@/lib/content";
-import type { Experience, Project, ProjectDetail } from "@/lib/types";
+import { extractHeadings } from "@/lib/markdown-utils";
+import type { Experience, Project } from "@/lib/types";
 import { ProjectDetailClient } from "./page-client";
 
 export function generateStaticParams() {
@@ -35,6 +36,9 @@ export default async function ProjectDetailPage({
     if (exp) companySlug = exp.slug;
   }
 
+  const headingsKo = detailKo ? extractHeadings(detailKo.content) : [];
+  const headingsEn = detailEn ? extractHeadings(detailEn.content) : [];
+
   return (
     <ProjectDetailClient
       projKo={projKo}
@@ -42,6 +46,8 @@ export default async function ProjectDetailPage({
       detailKo={detailKo}
       detailEn={detailEn}
       companySlug={companySlug}
+      headingsKo={headingsKo}
+      headingsEn={headingsEn}
     />
   );
 }

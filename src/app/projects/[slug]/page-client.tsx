@@ -1,12 +1,15 @@
 "use client";
 
+import type { ComponentPropsWithoutRef } from "react";
 import Markdown from "react-markdown";
+import { ProjectToc } from "@/components/layout/project-toc";
 import { SubPageHeader } from "@/components/layout/sub-page-header";
 import { Footer } from "@/components/layout/footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLang } from "@/hooks/use-lang";
 import { dict } from "@/lib/dictionary";
+import { slugify, type TocHeading } from "@/lib/markdown-utils";
 import type { Project, ProjectDetail } from "@/lib/types";
 import {
   Calendar,
@@ -23,6 +26,8 @@ interface Props {
   detailKo: ProjectDetail | null;
   detailEn: ProjectDetail | null;
   companySlug: string | null;
+  headingsKo: TocHeading[];
+  headingsEn: TocHeading[];
 }
 
 function formatDate(date: string, present: string): string {
@@ -31,16 +36,47 @@ function formatDate(date: string, present: string): string {
   return `${year}.${month}`;
 }
 
+function HeadingWithId({
+  level,
+  children,
+  ...props
+}: ComponentPropsWithoutRef<"h2"> & { level: 2 | 3 }) {
+  const Tag = `h${level}` as const;
+  const text =
+    typeof children === "string"
+      ? children
+      : Array.isArray(children)
+        ? children.join("")
+        : String(children ?? "");
+  return (
+    <Tag id={slugify(text)} {...props}>
+      {children}
+    </Tag>
+  );
+}
+
+const markdownComponents = {
+  h2: (props: ComponentPropsWithoutRef<"h2">) => (
+    <HeadingWithId level={2} {...props} />
+  ),
+  h3: (props: ComponentPropsWithoutRef<"h3">) => (
+    <HeadingWithId level={3} {...props} />
+  ),
+};
+
 export function ProjectDetailClient({
   projKo,
   projEn,
   detailKo,
   detailEn,
   companySlug,
+  headingsKo,
+  headingsEn,
 }: Props) {
   const { t } = useLang();
   const proj = t(projKo, projEn);
   const detail = t(detailKo, detailEn);
+  const headings = t(headingsKo, headingsEn);
   const present = t(dict.present.ko, dict.present.en);
   const dateRange = `${formatDate(proj.startDate, present)} - ${proj.endDate ? formatDate(proj.endDate, present) : present}`;
 
@@ -64,6 +100,7 @@ export function ProjectDetailClient({
   return (
     <>
       <SubPageHeader breadcrumbs={breadcrumbs} />
+      {headings.length > 0 && <ProjectToc headings={headings} />}
       <main className="min-h-screen py-16 px-4 md:px-8">
         <div className="max-w-4xl mx-auto">
           {/* Project header */}
@@ -143,7 +180,9 @@ export function ProjectDetailClient({
           {/* MDX content */}
           {detail?.content ? (
             <article className="prose prose-neutral dark:prose-invert max-w-none">
-              <Markdown>{detail.content}</Markdown>
+              <Markdown components={markdownComponents}>
+                {detail.content}
+              </Markdown>
             </article>
           ) : (
             /* Fallback to highlights if no detail content */
