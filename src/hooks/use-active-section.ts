@@ -1,9 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export function useActiveSection(sectionIds: string[]): string {
   const [activeSection, setActiveSection] = useState(sectionIds[0] ?? "");
+
+  const handleBottomEdge = useCallback(() => {
+    const atBottom =
+      window.innerHeight + window.scrollY >=
+      document.documentElement.scrollHeight - 50;
+    if (atBottom && sectionIds.length > 0) {
+      // Find the last section that exists in the DOM
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        if (document.getElementById(sectionIds[i])) {
+          setActiveSection(sectionIds[i]);
+          break;
+        }
+      }
+    }
+  }, [sectionIds]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -22,8 +37,13 @@ export function useActiveSection(sectionIds: string[]): string {
       if (el) observer.observe(el);
     }
 
-    return () => observer.disconnect();
-  }, [sectionIds]);
+    window.addEventListener("scroll", handleBottomEdge, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleBottomEdge);
+    };
+  }, [sectionIds, handleBottomEdge]);
 
   return activeSection;
 }
