@@ -107,7 +107,7 @@ export function PageClient({
 
   return (
     <>
-      <Header variant="home" activeSection={activeSection} />
+      <Header activeSection={activeSection} />
       <TableOfContents activeSection={activeSection} />
       <main className="min-h-screen">
         <ProfileSection ko={profileKo} en={profileEn} />
