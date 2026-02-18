@@ -3,6 +3,7 @@ export type Locale = "ko" | "en";
 export interface Profile {
   name: string;
   title: string;
+  tagline?: string;
   email: string;
   github?: string;
   linkedin?: string;
@@ -10,6 +11,7 @@ export interface Profile {
   phone?: string;
   location: string;
   photo: string;
+  bio?: { year: string; text: string }[];
 }
 
 export interface TechCategory {

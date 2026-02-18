@@ -23,6 +23,7 @@ export const dict = {
   projectsPersonal: { ko: "개인", en: "Personal" },
   source: { ko: "Source", en: "Source" },
   contact: { ko: "연락처", en: "Contact" },
+  bio: { ko: "Bio", en: "Bio" },
   siteTitle: {
     ko: "김기정 | 백엔드 엔지니어",
     en: "Kijung Kim | Software Engineer",
