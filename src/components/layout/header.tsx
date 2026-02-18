@@ -30,104 +30,119 @@ const sections = [
 ] as const;
 
 interface HeaderProps {
+  variant?: "home" | "sub";
   activeSection?: string;
 }
 
-export function Header({ activeSection }: HeaderProps) {
+export function Header({ variant = "sub", activeSection }: HeaderProps) {
   const { t } = useLang();
   const [open, setOpen] = useState(false);
+  const isHome = variant === "home";
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
       <div className="max-w-4xl mx-auto flex items-center justify-between h-14 px-4 md:px-8">
-        <a href="#profile" className="font-bold text-lg">
+        <a href={isHome ? "#profile" : "/"} className="font-bold text-lg">
           copolio
         </a>
 
-        {/* Desktop nav (hidden at xl+ where TOC takes over) */}
-        <nav className="hidden md:flex xl:hidden items-center gap-1">
-          {sections.map((s) => (
-            <a
-              key={s.id}
-              href={`#${s.id}`}
-              className={`px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-accent ${
-                activeSection === s.id
-                  ? "text-foreground font-medium"
-                  : "text-muted-foreground"
-              }`}
-            >
-              {t(s.label.ko, s.label.en)}
-            </a>
-          ))}
-        </nav>
+        {/* Desktop nav — home page only, hidden at xl+ where TOC takes over */}
+        {isHome && (
+          <nav className="hidden md:flex xl:hidden items-center gap-1">
+            {sections.map((s) => (
+              <a
+                key={s.id}
+                href={`#${s.id}`}
+                className={`px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-accent ${
+                  activeSection === s.id
+                    ? "text-foreground font-medium"
+                    : "text-muted-foreground"
+                }`}
+              >
+                {t(s.label.ko, s.label.en)}
+              </a>
+            ))}
+          </nav>
+        )}
 
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="sm" className="h-9 gap-1.5" asChild>
-            <a
-              href="https://github.com/copolio/copolio-portfolio"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github className="h-4 w-4" />
-              <span className="hidden sm:inline text-sm">
-                {t(dict.source.ko, dict.source.en)}
-              </span>
-            </a>
-          </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-9 w-9">
-                <Download className="h-4 w-4" />
-                <span className="sr-only">
-                  {t(dict.downloadPdf.ko, dict.downloadPdf.en)}
-                </span>
+          {isHome && (
+            <>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-9 gap-1.5"
+                asChild
+              >
+                <a
+                  href="https://github.com/copolio/copolio-portfolio"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Github className="h-4 w-4" />
+                  <span className="hidden sm:inline text-sm">
+                    {t(dict.source.ko, dict.source.en)}
+                  </span>
+                </a>
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                onClick={() => window.open("/resume/print", "_blank")}
-              >
-                <FileText className="h-4 w-4 mr-2" />
-                {t(dict.resume.ko, dict.resume.en)}
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => window.open("/career/print", "_blank")}
-              >
-                <Briefcase className="h-4 w-4 mr-2" />
-                {t(dict.careerDescription.ko, dict.careerDescription.en)}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-9 w-9">
+                    <Download className="h-4 w-4" />
+                    <span className="sr-only">
+                      {t(dict.downloadPdf.ko, dict.downloadPdf.en)}
+                    </span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem
+                    onClick={() => window.open("/resume/print", "_blank")}
+                  >
+                    <FileText className="h-4 w-4 mr-2" />
+                    {t(dict.resume.ko, dict.resume.en)}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => window.open("/career/print", "_blank")}
+                  >
+                    <Briefcase className="h-4 w-4 mr-2" />
+                    {t(dict.careerDescription.ko, dict.careerDescription.en)}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          )}
           <LangToggle />
           <ThemeToggle />
 
-          {/* Mobile nav */}
-          <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon" className="h-9 w-9">
-                <Menu className="h-4 w-4" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-64">
-              <SheetTitle className="sr-only">Navigation</SheetTitle>
-              <nav className="flex flex-col gap-2 mt-8">
-                {sections.map((s) => (
-                  <a
-                    key={s.id}
-                    href={`#${s.id}`}
-                    onClick={() => setOpen(false)}
-                    className={`px-3 py-2 rounded-md text-sm transition-colors hover:bg-accent ${
-                      activeSection === s.id
-                        ? "text-foreground font-medium bg-accent"
-                        : "text-muted-foreground"
-                    }`}
-                  >
-                    {t(s.label.ko, s.label.en)}
-                  </a>
-                ))}
-              </nav>
-            </SheetContent>
-          </Sheet>
+          {/* Mobile nav — home page only */}
+          {isHome && (
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger asChild className="md:hidden">
+                <Button variant="ghost" size="icon" className="h-9 w-9">
+                  <Menu className="h-4 w-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-64">
+                <SheetTitle className="sr-only">Navigation</SheetTitle>
+                <nav className="flex flex-col gap-2 mt-8">
+                  {sections.map((s) => (
+                    <a
+                      key={s.id}
+                      href={`#${s.id}`}
+                      onClick={() => setOpen(false)}
+                      className={`px-3 py-2 rounded-md text-sm transition-colors hover:bg-accent ${
+                        activeSection === s.id
+                          ? "text-foreground font-medium bg-accent"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      {t(s.label.ko, s.label.en)}
+                    </a>
+                  ))}
+                </nav>
+              </SheetContent>
+            </Sheet>
+          )}
         </div>
       </div>
     </header>

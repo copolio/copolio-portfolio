@@ -1,6 +1,7 @@
 "use client";
 
-import { SubPageHeader } from "@/components/layout/sub-page-header";
+import { Header } from "@/components/layout/header";
+import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";
 import { Footer } from "@/components/layout/footer";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -43,8 +44,9 @@ export function ExperienceDetailClient({
 
   return (
     <>
-      <SubPageHeader
-        breadcrumbs={[
+      <Header />
+      <BreadcrumbNav
+        items={[
           { label: dict.experience, href: "/#experience" },
           { label: t(expKo.company, expEn.company) },
         ]}

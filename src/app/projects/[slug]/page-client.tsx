@@ -3,7 +3,8 @@
 import type { ComponentPropsWithoutRef } from "react";
 import Markdown from "react-markdown";
 import { ProjectToc } from "@/components/layout/project-toc";
-import { SubPageHeader } from "@/components/layout/sub-page-header";
+import { Header } from "@/components/layout/header";
+import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";
 import { Footer } from "@/components/layout/footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -99,7 +100,8 @@ export function ProjectDetailClient({
 
   return (
     <>
-      <SubPageHeader breadcrumbs={breadcrumbs} />
+      <Header />
+      <BreadcrumbNav items={breadcrumbs} />
       {headings.length > 0 && <ProjectToc headings={headings} />}
       <main className="min-h-screen py-16 px-4 md:px-8">
         <div className="max-w-4xl mx-auto">
