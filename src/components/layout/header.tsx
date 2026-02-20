@@ -39,7 +39,7 @@ export function Header({ activeSection }: HeaderProps) {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm print:hidden">
       <div className="max-w-4xl mx-auto flex items-center justify-between h-14 px-4 md:px-8">
         <Link href="/" className="font-bold text-lg">
           copolio

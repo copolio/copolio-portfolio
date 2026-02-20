@@ -3,10 +3,9 @@
 import Markdown from "react-markdown";
 import { useLang } from "@/hooks/use-lang";
 import { dict } from "@/lib/dictionary";
-import { LangToggle } from "@/components/lang-toggle";
+import { Header } from "@/components/layout/header";
 import type { Profile, Project, ProjectDetail } from "@/lib/types";
-import { Mail, Github, Linkedin, MapPin, Printer } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Mail, Github, Linkedin, MapPin } from "lucide-react";
 
 interface ProjectWithDetail extends Project {
   detail: ProjectDetail | null;
@@ -38,22 +37,10 @@ export function CareerPrintClient({
   const present = t(dict.present.ko, dict.present.en);
 
   return (
-    <div className="print-page-bg">
-      {/* Toolbar - hidden in print */}
-      <div className="sticky top-0 z-10 flex items-center justify-end gap-2 px-4 py-3 print:hidden">
-        <LangToggle />
-        <Button
-          variant="default"
-          size="sm"
-          onClick={() => window.print()}
-          className="gap-1.5"
-        >
-          <Printer className="h-4 w-4" />
-          {t("PDF 저장", "Save PDF")}
-        </Button>
-      </div>
-
-      <div className="print-page">
+    <>
+      <Header />
+      <div className="print-page-bg">
+        <div className="print-page">
         {/* Header */}
         <header className="mb-6 border-b pb-4">
           <h1 className="text-2xl font-bold">{profile.name}</h1>
@@ -143,7 +130,8 @@ export function CareerPrintClient({
         <footer className="mt-8 pt-4 border-t text-center text-xs text-muted-foreground">
           &copy; {new Date().getFullYear()} {profile.name}
         </footer>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
