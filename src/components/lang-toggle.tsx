@@ -8,7 +8,7 @@ export function LangToggle() {
 
   return (
     <Button
-      variant="outline"
+      variant="secondary"
       size="sm"
       onClick={() => setLocale(locale === "ko" ? "en" : "ko")}
       className="font-mono text-xs w-10"
