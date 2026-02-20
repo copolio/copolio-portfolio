@@ -19,7 +19,9 @@ export const metadata: Metadata = {
   description: "Kotlin, Spring 기반 백엔드 엔지니어 김기정의 포트폴리오입니다.",
   icons: {
     icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
