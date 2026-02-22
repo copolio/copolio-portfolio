@@ -144,13 +144,9 @@
 }
 
 .print-page-bg {
-  background: oklch(0.96 0 0);
+  background: var(--background);
   min-height: 100vh;
   padding: 1rem 1rem 3rem;
-}
-
-:is(.dark) .print-page-bg {
-  background: oklch(0.2 0 0);
 }
 
 /* Force all light-theme variables inside print-page regardless of dark mode */

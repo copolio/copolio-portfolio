@@ -5,7 +5,8 @@ import { useLang } from "@/hooks/use-lang";
 import { dict } from "@/lib/dictionary";
 import { Header } from "@/components/layout/header";
 import type { Profile, Project, ProjectDetail } from "@/lib/types";
-import { Mail, Github, Linkedin, MapPin } from "lucide-react";
+import { Mail, Github, Linkedin, MapPin, Printer } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface ProjectWithDetail extends Project {
   detail: ProjectDetail | null;
@@ -39,7 +40,7 @@ export function CareerPrintClient({
   return (
     <>
       <Header />
-      <div className="print-page-bg">
+      <div className="print-page-bg relative">
         <div className="print-page">
         {/* Header */}
         <header className="mb-6 border-b pb-4">
@@ -131,6 +132,15 @@ export function CareerPrintClient({
           &copy; {new Date().getFullYear()} {profile.name}
         </footer>
         </div>
+        <Button
+          variant="default"
+          size="icon"
+          onClick={() => window.print()}
+          className="fixed bottom-6 right-6 h-12 w-12 rounded-full shadow-lg print:hidden"
+        >
+          <Printer className="h-5 w-5" />
+          <span className="sr-only">{t("PDF 저장", "Save PDF")}</span>
+        </Button>
       </div>
     </>
   );

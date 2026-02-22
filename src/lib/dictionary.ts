@@ -25,12 +25,12 @@ export const dict = {
   contact: { ko: "연락처", en: "Contact" },
   bio: { ko: "Bio", en: "Bio" },
   siteTitle: {
-    ko: "김기정 | 백엔드 엔지니어",
-    en: "Kijung Kim | Software Engineer",
+    ko: "김기정 | 서버 엔지니어",
+    en: "Kijung Kim | Server Engineer",
   },
   siteDescription: {
-    ko: "Kotlin, Spring 기반 백엔드 엔지니어 김기정의 포트폴리오입니다.",
-    en: "Portfolio of Kijung Kim, a software engineer specializing in Kotlin and Spring.",
+    ko: "Kotlin, Spring 기반 서버 엔지니어 김기정의 포트폴리오입니다.",
+    en: "Portfolio of Kijung Kim, a server engineer specializing in Kotlin and Spring.",
   },
 } as const;
 
