@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { useLang } from "@/hooks/use-lang";
 import { Button } from "@/components/ui/button";
 
@@ -10,7 +11,11 @@ export function LangToggle() {
     <Button
       variant="secondary"
       size="sm"
-      onClick={() => setLocale(locale === "ko" ? "en" : "ko")}
+      onClick={() => {
+        const next = locale === "ko" ? "en" : "ko";
+        track("lang_switch", { to: next });
+        setLocale(next);
+      }}
       className="font-mono text-xs w-10"
     >
       {locale === "ko" ? "EN" : "KO"}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { track } from "@vercel/analytics";
 import { SectionWrapper } from "@/components/section-wrapper";
 import { Timeline } from "@/components/timeline/timeline";
 import { TimelineItem } from "@/components/timeline/timeline-item";
@@ -47,7 +48,10 @@ export function ProjectsSection({
 
       <Tabs
         value={activeTab}
-        onValueChange={(v) => setActiveTab(v as ProjectTab)}
+        onValueChange={(v) => {
+          track("project_tab_change", { tab: v });
+          setActiveTab(v as ProjectTab);
+        }}
         className="mb-6"
       >
         <TabsList>
@@ -101,6 +105,7 @@ export function ProjectsSection({
                       href={proj.links.github}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => track("project_link_click", { project: proj.slug, link_type: "github" })}
                     >
                       <Github className="h-4 w-4 mr-1" />
                       Code
@@ -113,6 +118,7 @@ export function ProjectsSection({
                       href={proj.links.demo}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => track("project_link_click", { project: proj.slug, link_type: "demo" })}
                     >
                       <ExternalLink className="h-4 w-4 mr-1" />
                       Demo

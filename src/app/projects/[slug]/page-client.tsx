@@ -1,6 +1,7 @@
 "use client";
 
 import type { ComponentPropsWithoutRef } from "react";
+import { track } from "@vercel/analytics";
 import Markdown from "react-markdown";
 import { ProjectToc } from "@/components/layout/project-toc";
 import { Header } from "@/components/layout/header";
@@ -158,6 +159,7 @@ export function ProjectDetailClient({
                     href={proj.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => track("project_link_click", { project: projKo.slug, link_type: "github" })}
                   >
                     <Github className="h-4 w-4 mr-1.5" />
                     GitHub
@@ -170,6 +172,7 @@ export function ProjectDetailClient({
                     href={proj.links.demo}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => track("project_link_click", { project: projKo.slug, link_type: "demo" })}
                   >
                     <ExternalLink className="h-4 w-4 mr-1.5" />
                     Demo

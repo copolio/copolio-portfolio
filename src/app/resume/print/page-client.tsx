@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { useLang } from "@/hooks/use-lang";
 import { dict } from "@/lib/dictionary";
 import { Header } from "@/components/layout/header";
@@ -256,7 +257,10 @@ export function ResumePrintClient({
         <Button
           variant="default"
           size="icon"
-          onClick={() => window.print()}
+          onClick={() => {
+            track("pdf_print", { type: "resume" });
+            window.print();
+          }}
           className="fixed bottom-6 right-6 h-12 w-12 rounded-full shadow-lg print:hidden"
         >
           <Printer className="h-5 w-5" />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { track } from "@vercel/analytics";
 import Link from "next/link";
 import { Menu, Download, FileText, Briefcase, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -91,13 +92,19 @@ export function Header({ activeSection }: HeaderProps) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem
-                onClick={() => window.open("/resume/print", "_blank")}
+                onClick={() => {
+                  track("pdf_export", { type: "resume" });
+                  window.open("/resume/print", "_blank");
+                }}
               >
                 <FileText className="h-4 w-4 mr-2" />
                 {t(dict.resume.ko, dict.resume.en)}
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => window.open("/career/print", "_blank")}
+                onClick={() => {
+                  track("pdf_export", { type: "career" });
+                  window.open("/career/print", "_blank");
+                }}
               >
                 <Briefcase className="h-4 w-4 mr-2" />
                 {t(dict.careerDescription.ko, dict.careerDescription.en)}

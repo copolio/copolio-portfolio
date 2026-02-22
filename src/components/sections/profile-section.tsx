@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { SectionWrapper } from "@/components/section-wrapper";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -47,6 +48,7 @@ export function ProfileSection({ ko, en }: Props) {
             </div>
             <a
               href={`mailto:${data.email}`}
+              onClick={() => track("external_link_click", { target: "email" })}
               className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               <Mail className="h-4 w-4" />
@@ -61,6 +63,7 @@ export function ProfileSection({ ko, en }: Props) {
                   href={data.github}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => track("external_link_click", { target: "github" })}
                 >
                   <Github className="h-4 w-4 mr-1.5" />
                   GitHub
@@ -73,6 +76,7 @@ export function ProfileSection({ ko, en }: Props) {
                   href={data.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => track("external_link_click", { target: "linkedin" })}
                 >
                   <Linkedin className="h-4 w-4 mr-1.5" />
                   LinkedIn

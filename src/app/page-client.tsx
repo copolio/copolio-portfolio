@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
+import { track } from "@vercel/analytics";
 import { Header } from "@/components/layout/header";
 import { TableOfContents } from "@/components/layout/table-of-contents";
 import { Footer } from "@/components/layout/footer";
@@ -102,7 +103,13 @@ export function PageClient({
   }, [projEn]);
 
   const handleTechClick = useCallback((name: string) => {
-    setActiveTech((prev) => (prev === name ? null : name));
+    setActiveTech((prev) => {
+      const next = prev === name ? null : name;
+      if (next !== null) {
+        track("tech_filter", { tech: name });
+      }
+      return next;
+    });
   }, []);
 
   return (
